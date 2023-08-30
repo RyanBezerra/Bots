@@ -5,7 +5,7 @@ from pynput import keyboard
 import json
 import os
 
-FOLDER_NAME = 'Dawnport'
+FOLDER_NAME = 'SalamanderCave'
 
 def create_folder():
 	if not os.path.isdir(FOLDER_NAME):
