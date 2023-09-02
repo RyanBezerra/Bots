@@ -18,10 +18,10 @@ O AutoTibia é um projeto que desenvolvi de forma amadora, com o propósito excl
 - Automatiza o processo de matar monstros e coletar itens.
 - Interação com elementos na tela por meio do movimento do cursor e cliques.
 - Implementa um fluxo de controle baseado em verificações e condições.
-- Hunts setadas: Dawnport, SwampTroll(Venore), Salamander Cave(Venore)
+- Hunts setadas: Dawnport, SwampTroll(Venore), Salamander Cave(Venore), Winter Wolf Hunt(Sul de Svargrond)
 
 ## Em desenvolvimento
 
 - [ ] Verificar se a criatura está em combate
-- [ ] Caso a vida != de COLOR_LIFE_FULL, usar curas
-- [ ] 
+- [ ] Caso a vida COLOR_LIFE_FULL seja False, usar curas até COLOR_LIFE_FULL ser True
+- [ ] Setar rotações das spells de ataque de acordo com as hunts setadas
