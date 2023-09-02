@@ -5,7 +5,7 @@ import json
 import cv2
 import numpy as np
 
-REGION_BATTLE = (1190,458,161,40)
+REGION_BATTLE = (1190,457,176,65)
 REGION_MAP_BATTLE = (1198,25,108,111)
 REGION_LOOT = (690,270,150,131)
 POSITION_MANA_FULL = (777,33)
@@ -18,16 +18,16 @@ COLOR_LIFE_YELLOW = (199, 151, 9)
 def check_battle():
 	return pyautogui.locateOnScreen('C:/Users/Ryan/Desktop/AutoTibia/PNG/Region_Battle.png', region = REGION_BATTLE)
 
-#check_battle()
+check_battle() 
 
 def kill_monster():
 		while check_battle() == None:
 			pyautogui.press('space')
 			while check_battle() != None:
-				pyautogui.sleep(10)
+				pyautogui.sleep(6)
 				print('esperando os monstros morrerem')
 			print('procurando outros monstros')
-			pyautogui.sleep(10)
+			pyautogui.sleep(6)
 
 #kill_monster()
 
@@ -100,7 +100,7 @@ def run():
 				get_loot()
 				go_to_flag(item['path'], item['wait'])
 			eat_food()
-			check_status('mana', 5, *POSITION_MANA_FULL, COLOR_MANA, 'F4')
+			check_status('mana', 2, *POSITION_MANA_FULL, COLOR_MANA, 'F4')
 			check_status('life', 1, *POSITION_LIFE, COLOR_LIFE_GREEN, 'F4')
 
 #keyboard.wait('h')
