@@ -23,5 +23,5 @@ O AutoTibia é um projeto que desenvolvi de forma amadora, com o propósito excl
 ## Em desenvolvimento
 
 - [ ] Verificar se a criatura está em combate
-- [ ] Caso a vida COLOR_LIFE_FULL seja False, usar curas até COLOR_LIFE_FULL ser True
+- [X] Caso a vida COLOR_LIFE_FULL seja False, usar curas até COLOR_LIFE_FULL ser True
 - [ ] Setar rotações das spells de ataque de acordo com as hunts setadas
