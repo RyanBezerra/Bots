@@ -5,7 +5,7 @@ import json
 import cv2
 import numpy as np
 
-REGION_BATTLE = (1190,457,176,65)
+REGION_BATTLE = (1190,440,176,65)
 REGION_MAP_BATTLE = (1198,25,108,111)
 REGION_LOOT = (690,270,150,131)
 POSITION_MANA_FULL = (777,33)
@@ -14,20 +14,23 @@ POSITION_LIFE = (366, 35)
 COLOR_LIFE_FULL = (0, 174, 0)
 COLOR_LIFE_GREEN = (100, 145, 4)
 COLOR_LIFE_YELLOW = (199, 151, 9)
-
+#{"path": "SvargrondWinterWolfs/flag_4.png", "wait": 10}, {"path": "SvargrondWinterWolfs/flag_5.png", "wait": 20}, {"path": "SvargrondWinterWolfs/flag_6.png", "wait": 15},
 def check_battle():
 	return pyautogui.locateOnScreen('C:/Users/Ryan/Desktop/AutoTibia/PNG/Region_Battle.png', region = REGION_BATTLE)
+	#print(pyautogui.locateOnScreen('C:/Users/Ryan/Desktop/AutoTibia/PNG/Region_Battle.png'))
 
-check_battle() 
+
+#check_battle() 
 
 def kill_monster():
-		while check_battle() == None:
-			pyautogui.press('space')
-			while check_battle() != None:
-				pyautogui.sleep(6)
-				print('esperando os monstros morrerem')
-			print('procurando outros monstros')
-			pyautogui.sleep(6)
+	contador = 0
+	while check_battle() == None:
+		pyautogui.press('space')
+#		while check_battle() != None:
+		pyautogui.sleep(2)
+#			print('esperando os monstros morrerem')
+		print('procurando outros monstros')
+		pyautogui.sleep(2)
 
 #kill_monster()
 
@@ -100,8 +103,11 @@ def run():
 				get_loot()
 				go_to_flag(item['path'], item['wait'])
 			eat_food()
-			check_status('mana', 2, *POSITION_MANA_FULL, COLOR_MANA, 'F4')
-			check_status('life', 1, *POSITION_LIFE, COLOR_LIFE_GREEN, 'F4')
+			check_status('mana', 1, *POSITION_MANA_FULL, COLOR_MANA, 'F4')
+			check_status('life', 2, *POSITION_MANA_FULL, COLOR_LIFE_GREEN, 'F4')
+			while pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_FULL) is False:
+				pyautogui.press('F4')
+				pyautogui.sleep(1)
 
 #keyboard.wait('h')
 run()
