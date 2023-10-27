@@ -61,7 +61,7 @@ Você também deve ter o Microsoft Edge instalado em seu sistema.
 
 ## Notas
 
-- Certifique-se de que o caminho para o executável do Microsoft Edge WebDriver esteja definido corretamente no script.
+- Certifique-se de que o caminho para o executável do Microsoft Edge WebDriver esteja definido corretamente no script, como o executáveldo WebDriver não está relativo, você deve especificar usando o endereço de onde a pasta AutoEdge está.
 
 - Lembre-se de respeitar os termos de uso e direitos autorais ao extrair e usar o conteúdo da web.
 
