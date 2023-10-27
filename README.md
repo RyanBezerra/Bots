@@ -49,13 +49,13 @@ Você também deve ter o Microsoft Edge instalado em seu sistema.
 
 2. Clone este repositório para o seu sistema.
 
-3. Execute o script Python `extract_videos.py` para iniciar a extração dos vídeos. O código abrirá o navegador, acessará a página desejada e baixará os vídeos para um diretório local chamado 'videos'.
+3. Execute o script Python `Bot.py` para iniciar a extração dos vídeos. O código abrirá o navegador, acessará a página desejada e baixará os vídeos para um diretório local chamado 'videos'.
 
 4. Após a execução do script, os vídeos estarão disponíveis no diretório 'videos'.
 
 ## Estrutura do Projeto
 
-- `extract_videos.py`: O script principal que automatiza a extração dos vídeos.
+- `Bot.py`: O script principal que automatiza a extração dos vídeos.
 - `videos/`: O diretório onde os vídeos extraídos são salvos.
 - `div_cy00_13az.html`: O arquivo HTML temporário baixado da página.
 
