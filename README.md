@@ -25,3 +25,44 @@ O AutoTibia é um projeto que desenvolvi de forma amadora, com o propósito excl
 - [ ] Verificar se a criatura está em combate
 - [X] Caso a vida COLOR_LIFE_FULL seja False, usar curas até COLOR_LIFE_FULL ser True
 - [ ] Setar rotações das spells de ataque de acordo com as hunts setadas
+
+
+
+# Extrator de Vídeos da Web usando Selenium e Beautiful Soup
+
+Este projeto demonstra como automatizar a extração de vídeos de uma página web específica usando as bibliotecas Selenium e Beautiful Soup em Python. O código é projetado para baixar vídeos da página 'https://br.ifunny.co/top-memes/day', mas pode ser adaptado para outras finalidades.
+
+## Pré-requisitos
+
+Antes de usar este código, certifique-se de que você tenha as seguintes bibliotecas instaladas em seu ambiente Python:
+
+- [Selenium](https://pypi.org/project/selenium/): Para automatizar a interação com o navegador.
+- [Beautiful Soup](https://www.crummy.com/software/BeautifulSoup/bs4/doc/): Para analisar o HTML da página.
+- [Requests](https://pypi.org/project/requests/): Para baixar o conteúdo da web.
+- [Microsoft Edge WebDriver](https://developer.microsoft.com/en-us/microsoft-edge/tools/webdriver/): O WebDriver específico do navegador que corresponde à versão do Microsoft Edge que você está usando.
+
+Você também deve ter o Microsoft Edge instalado em seu sistema.
+
+## Como Usar
+
+1. Certifique-se de ter todos os pré-requisitos instalados e o Microsoft Edge WebDriver configurado.
+
+2. Clone este repositório para o seu sistema.
+
+3. Execute o script Python `extract_videos.py` para iniciar a extração dos vídeos. O código abrirá o navegador, acessará a página desejada e baixará os vídeos para um diretório local chamado 'videos'.
+
+4. Após a execução do script, os vídeos estarão disponíveis no diretório 'videos'.
+
+## Estrutura do Projeto
+
+- `extract_videos.py`: O script principal que automatiza a extração dos vídeos.
+- `videos/`: O diretório onde os vídeos extraídos são salvos.
+- `div_cy00_13az.html`: O arquivo HTML temporário baixado da página.
+
+## Notas
+
+- Certifique-se de que o caminho para o executável do Microsoft Edge WebDriver esteja definido corretamente no script.
+
+- Lembre-se de respeitar os termos de uso e direitos autorais ao extrair e usar o conteúdo da web.
+
+Este é um exemplo básico de como automatizar a extração de conteúdo da web usando Python. Você pode personalizar e expandir este código para atender às suas necessidades específicas.
