@@ -5,7 +5,10 @@ from pynput import keyboard
 import json
 import os
 
+#FOLDER_NAME = 'LagunaBloodCrabs'
 FOLDER_NAME = 'SvargrondWinterWolfs'
+
+#'SvargrondWinterWolfs'
 
 def create_folder():
 	if not os.path.isdir(FOLDER_NAME):
@@ -26,7 +29,10 @@ class Rec:
 		self.count = self.count + 1
 		infos = {
 			"path": path,
-			"wait": 10
+			"wait": 15,
+			"elevation": 0,
+			"direction": 0,
+			"combo": 0
 		}
 		self.coordinates.append(infos)
 
@@ -44,4 +50,3 @@ class Rec:
 
 #record = Rec()
 #record.start()
-
