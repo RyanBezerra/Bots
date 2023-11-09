@@ -1,5 +1,6 @@
 import TKinterModernThemes as TKMT
 from tkinter import ttk
+import tkinter as tk
 
 class App(TKMT.ThemedTKinterFrame):
     def __init__(self, theme, mode, usecommandlineargs=True, usethemeconfigfile=True):
@@ -8,17 +9,19 @@ class App(TKMT.ThemedTKinterFrame):
         self.button_frame = self.addLabelFrame("Menu")  # colocado na linha 1, coluna 0
 
         self.button_state = True  # Variável para controlar o estado do botão
-        self.toggle_button = ttk.Button(self.button_frame.master, text="Ligar")
+        self.toggle_button = ttk.Button(self.button_frame.master, text="Off")
         self.toggle_button.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
         self.toggle_button['command'] = self.toggle_button_state  # Configura a função a ser chamada quando o botão é clicado
 
         self.login_frame = self.addLabelFrame("Opção de login automático")
 
         # Opções da caixa de opções
-        opcoes = ["Opção 1", "Opção 2", "Opção 3"]
+        opcoes = ["Defesa eslava", "Defesa Siciliana", "Abertura Italiana"]
 
         # Crie a caixa de opções (combobox) dentro do frame "Opção de login automático"
-        self.opcao_combobox = ttk.Combobox(self.login_frame.master, values=opcoes, state="readonly", text=opcoes)
+        self.opcao_var = tk.StringVar(value=opcoes[0])  # Valor inicial da caixa de opções
+
+        self.opcao_combobox = ttk.Combobox(self.login_frame.master, values=opcoes, textvariable=self.opcao_var, state="readonly")
         self.opcao_combobox.grid(row=1, column=0, padx=10, pady=10, sticky='nsew')
 
         self.debugPrint()
@@ -27,14 +30,13 @@ class App(TKMT.ThemedTKinterFrame):
     def toggle_button_state(self):
         # Função para alternar o estado do botão (ligado/desligado)
         if self.button_state:
-            self.toggle_button.config(text="Desligar")
+            self.toggle_button.config(text="On")
         else:
-            self.toggle_button.config(text="Ligar")
+            self.toggle_button.config(text="Off")
         self.button_state = not self.button_state
 
-if __name__ == "__main__":
+if __name__ == "__main__": 
     App("park", "dark")
-
 
 
 #Opção de login automático -

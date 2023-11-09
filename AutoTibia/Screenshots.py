@@ -7,8 +7,9 @@ import os
 
 #FOLDER_NAME = 'LagunaBloodCrabs'
 FOLDER_NAME = 'SvargrondWinterWolfs'
-
-#'SvargrondWinterWolfs'
+#FOLDER_NAME = 'Dawnport'
+#FOLDER_NAME = 'SalamanderCave'
+#FOLDER_NAME = 'VenoreSwampTroll'
 
 def create_folder():
 	if not os.path.isdir(FOLDER_NAME):

@@ -1,6 +1,7 @@
 import pyautogui
 import keyboard
 import Screenshots
+#import Visual
 import json
 import cv2
 import numpy as np
@@ -28,10 +29,9 @@ DIRECTION6 = (772,389)
 DIRECTION7 = (723,385)
 DIRECTION8 = (723,344)
 
-#{"path": "SvargrondWinterWolfs/flag_4.png", "wait": 10}, {"path": "SvargrondWinterWolfs/flag_5.png", "wait": 20}, {"path": "SvargrondWinterWolfs/flag_6.png", "wait": 15},
 def check_battle():
 	return pyautogui.locateOnScreen('C:/Users/Ryan/Desktop/AutoTibia/PNG/Region_Battle.png')
-	#print(pyautogui.locateOnScreen('C:/Users/Ryan/Desktop/AutoTibia/PNG/Region_Battle.png'))
+
 
 def kill_monster(combo):
 	if combo == 0:
@@ -220,6 +220,8 @@ def run():
                 go_to_flag(item['path'], item['wait'], item ['elevation'], item ['direction'])
             eat_food()
 
+#print(pyautogui.locateOnScreen('C:/Users/Ryan/Desktop/AutoTibia/PNG/Region_Battle.png'))
 #pyautogui.displayMousePosition()
 #keyboard.wait('h')
 run()
+
