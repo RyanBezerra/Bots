@@ -1,0 +1,5 @@
+É necessario que tenha python3 e pip instalados na sua maquina
+
+pip install selenium
+pip install webdriver_manager
+pip install webdriver_manager.microsoft
