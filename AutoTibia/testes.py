@@ -1,51 +1,67 @@
-# Atribuindo números às opções de nomes de pasta
-opcoes_nomes = {1: 'LagunaBloodCrabs', 2: 'SvargrondWinterWolfs', 3: 'Dawnport', 4: 'SalamanderCave', 5: 'VenoreSwampTroll'}
+import tkinter as tk
 
-# Variável global para armazenar o nome da pasta escolhido
-FOLDER_NAME = None
+# Defina as variáveis de entrada globalmente
+entrada_email = None
+entrada_senha = None
 
-# Função que pergunta ao usuário e atribui um novo nome à variável FOLDER_NAME
-def escolher_novo_folder_name():
-    global FOLDER_NAME  # Indicando que estamos utilizando a variável global
+def fazer_autologin():
+    # Limpa todos os widgets da janela principal
+    for widget in root.winfo_children():
+        widget.destroy()
 
-    # Se FOLDER_NAME já estiver definido, perguntar se o usuário deseja mantê-lo ou escolher outro
-    if FOLDER_NAME:
-        manter_atual = input(f"O nome da pasta atual é '{FOLDER_NAME}'. Deseja mantê-lo? (S/N): ")
-        if manter_atual.lower() == 's':
-            return
+    # Atualiza o título da janela principal
+    root.title("AutoLogin")
 
-    # Exibindo opções de nomes de pasta
-    print("Escolha o número correspondente ao novo nome da pasta:")
-    for num, nome in opcoes_nomes.items():
-        print(f"{num} - '{nome}'")
+    # Adiciona campos de entrada para email e senha
+    frame = tk.Frame(root, padx=10, pady=10)
+    frame.pack()
 
-    # Obtendo a escolha do usuário
-    opcao = input("Digite o número correspondente ao novo nome desejado: ")
-    
-    # Mapeando a escolha do usuário para o nome da pasta
-    novo_folder_name = opcoes_nomes.get(int(opcao), None)
-    
-    # Verificando se o nome da pasta é válido
-    if novo_folder_name:
-        # Atribuindo o novo nome à variável FOLDER_NAME
-        FOLDER_NAME = novo_folder_name
-        print(f"Novo nome da pasta atribuído: '{FOLDER_NAME}'")
+    global entrada_email
+    global entrada_senha
 
-        # Salvando o nome da pasta no arquivo para manter entre execuções
-        with open("config.txt", "w") as config_file:
-            config_file.write(FOLDER_NAME)
-    else:
-        print("Opção inválida.")
+    label_email = tk.Label(frame, text="Email:")
+    label_email.grid(row=0, column=0, pady=5)
+    entrada_email = tk.Entry(frame)
+    entrada_email.grid(row=0, column=1, pady=5)
 
-# Tenta ler o nome da pasta salvo no arquivo para manter entre execuções
-try:
-    with open("config.txt", "r") as config_file:
-        FOLDER_NAME = config_file.read()
-        print(f"Nome da pasta obtido do arquivo: '{FOLDER_NAME}'")
-except FileNotFoundError:
-    pass
+    label_senha = tk.Label(frame, text="Senha:")
+    label_senha.grid(row=1, column=0, pady=5)
+    entrada_senha = tk.Entry(frame, show="*")  # O argumento "show" esconde os caracteres digitados
+    entrada_senha.grid(row=1, column=1, pady=5)
 
-# Chamando a função para escolher e atribuir um novo nome à variável FOLDER_NAME
-#escolher_novo_folder_name()
+    # Adiciona o botão "Login"
+    botao_login = tk.Button(frame, text="Login", command=realizar_login)
+    botao_login.grid(row=2, columnspan=2, pady=10)
 
-print(FOLDER_NAME)
+    # Adiciona o botão "Voltar"
+    botao_voltar = tk.Button(root, text="Voltar", command=voltar_para_menu)
+    botao_voltar.pack(pady=10)
+
+def voltar_para_menu():
+    # Limpa todos os widgets da janela atual
+    for widget in root.winfo_children():
+        widget.destroy()
+
+    # Atualiza o título da janela principal
+    root.title("Menu Principal")
+
+    # Adiciona novamente o botão "AutoLogin"
+    botao_autologin = tk.Button(root, text="AutoLogin", command=fazer_autologin)
+    botao_autologin.pack(pady=20)
+
+def realizar_login():
+    # Função para lidar com a lógica de login
+    email = entrada_email.get()
+    senha = entrada_senha.get()
+    print(f"Email: {email}, Senha: {senha}")
+
+# Configuração da janela principal
+root = tk.Tk()
+root.title("Menu Principal")
+
+# Criando o botão AutoLogin
+botao_autologin = tk.Button(root, text="AutoLogin", command=fazer_autologin)
+botao_autologin.pack(pady=20)
+
+# Iniciando o loop principal
+root.mainloop()
