@@ -1,5 +1,7 @@
 import pyautogui
 import keyboard
+from pynput.keyboard import Listener
+from pynput import keyboard
 import json
 import cv2
 import numpy as np
@@ -9,12 +11,11 @@ from tkinter import ttk
 import TKinterModernThemes as TKMT
 import ctypes
 import pygetwindow as gw
-from pynput.keyboard import Listener
-from pynput import keyboard
 import os
 
 #REGION_BATTLE = (1190,440,176,65)
 REGION_MAP_BATTLE = (1198,25,108,111)
+REGION_CONDITIONS = (717,58,108,17)
 REGION_LOOT = (690,270,150,131)
 #POSITION_MANA_FULL = (777,33) #FULL
 POSITION_MANA_FULL = (978,33) #HALF
@@ -23,6 +24,12 @@ POSITION_LIFE = (366, 35)
 COLOR_LIFE_FULL = (0, 174, 0)
 COLOR_LIFE_GREEN = (100, 145, 4)
 COLOR_LIFE_YELLOW = (199, 151, 9)
+x1, y1 = (1213, 456)
+expected_color = (254, 0, 0)
+CENTRO_MAPA = (1252, 82)
+CRIAR_MARCADOR = (1184, 93)
+CONFIRMAR_MARCADOR = (737, 457)
+
 
 # Direções perto do personagem
 DIRECTION1 = (723,295)
@@ -34,6 +41,22 @@ DIRECTION6 = (772,389)
 DIRECTION7 = (723,385)
 DIRECTION8 = (723,344)
 
+MARCADORES = [
+    (563, 405), (584, 405), (605, 405), (626, 405), (647, 405),
+    (668, 405), (689, 405), (710, 405), (731, 405), (752, 405)
+]
+
+#FOLDER_NAME = 'SvargrondWinterWolf'
+
+# Lista de opções para a combo box
+opcoes_folders = [
+    'LagunaBloodCrabs',
+    'SvargrondWinterWolf',
+    'Dawnport',
+    'SalamanderCave',
+    'VenoreSwampTroll'
+]
+
 def selecionar_folder():
     global FOLDER_NAME
     selected_folder = combo_var.get()
@@ -41,14 +64,6 @@ def selecionar_folder():
     print(FOLDER_NAME)
     # Faça o que precisar com o nome da pasta selecionada
 
-# Lista de opções para a combo box
-opcoes_folders = [
-    'LagunaBloodCrabs',
-    'SvargrondWinterWolfs',
-    'Dawnport',
-    'SalamanderCave',
-    'VenoreSwampTroll'
-]
 
 def create_folder():
     if not os.path.isdir(FOLDER_NAME):
@@ -59,11 +74,28 @@ class Rec:
     def __init__(self):
         create_folder()
         self.count = 0
+        self.current_marcador_index = 0
         self.coordinates = []
 
+    def setarhunt(self, marcador):
+        pyautogui.moveTo(CENTRO_MAPA)
+        pyautogui.click(button="right")
+        pyautogui.sleep(1)
+        pyautogui.moveTo(CRIAR_MARCADOR)
+        pyautogui.click(button="left")
+        pyautogui.sleep(1)
+        pyautogui.moveTo(marcador)
+        pyautogui.click(button="left")
+        pyautogui.sleep(1)
+        pyautogui.moveTo(CONFIRMAR_MARCADOR)
+        pyautogui.click(button="left")
+        pyautogui.sleep(1)
+        pyautogui.moveTo(CENTRO_MAPA)
+
     def photo(self):
+        self.current_marcador_index = (self.current_marcador_index + 1) % len(MARCADORES)
         x, y = pyautogui.position()
-        photo = pyautogui.screenshot(region = (x - 3, y - 3, 6, 6))
+        photo = pyautogui.screenshot(region = (x - 4, y - 4, 9, 9))
         path = f'{FOLDER_NAME}/flag_{self.count}.png'
         photo.save(path)
         self.count = self.count + 1
@@ -82,7 +114,10 @@ class Rec:
                 file.write(json.dumps(self.coordinates))
             return False
         if key == keyboard.Key.home:
+            self.setarhunt(MARCADORES[self.current_marcador_index])
+            pyautogui.sleep(1)
             self.photo()
+            print('Feito!')
 
     def start(self):
         with Listener(on_press = self.key_code) as listener:
@@ -196,21 +231,27 @@ def check_battle():
 	return pyautogui.locateOnScreen('C:/Users/Ryan/Desktop/AutoTibia/PNG/Region_Battle.png')
 
 
+def check_target_pixel():
+     return pyautogui.pixelMatchesColor(x1, y1, expected_color)
+
+
 def kill_monster(combo):
     if combo == 0:
         while check_battle() == None:
             pyautogui.press('space')
             pyautogui.sleep(1)
-            print('procurando outros monstros')
-            pyautogui.sleep(1)
+            while check_target_pixel() is True:
+                print('Matando...')
+                pyautogui.sleep(1)
+            print('Procurando outros monstros')
     elif combo == 1:
         while check_battle() == None:
             pyautogui.press('space')
             pyautogui.sleep(1)
-            pyautogui.press('F10')
-            pyautogui.sleep(1)
-            print('procurando outros monstros')
-            pyautogui.sleep(1)
+            while check_target_pixel() is True:
+                print('Matando...')
+                pyautogui.sleep(1)
+            print('Procurando outros monstros')
 
 
 def get_loot():
@@ -251,7 +292,14 @@ def go_to_flag(path, wait, elevation, direction):
             x, y = pyautogui.center(flag)
             pyautogui.moveTo(x, y)
             pyautogui.click(button='left')
-            pyautogui.sleep(wait)
+            while pyautogui.locateOnScreen(path, region=(1252 - 4,82 - 4,9,9)) == None:
+                print('esperando...')
+                pyautogui.sleep(1)
+                antigo = pyautogui.locateOnScreen(path)
+                if antigo == pyautogui.locateOnScreen(path):
+                    break
+
+
         elif elevation == 1:
             # Usa a corda
             x, y = pyautogui.center(flag)
@@ -350,8 +398,24 @@ def eat_food():
 	print('comendo comida...')
 
 
+def check_conditions():
+    while haste_var.get():
+        try:
+            # Localiza a posição da imagem na tela
+            Haste = pyautogui.locateOnScreen('C:\\Users\\Ryan\\Desktop\\AutoTibia\\PNG\\Haste.png', confidence=0.8, region=REGION_CONDITIONS)
+
+            # Se a imagem não for encontrada, faça alguma coisa
+            if Haste is None:
+                pyautogui.press('F12')
+
+        except Exception as e:
+            print(f"Erro: {e}")
+
+        pyautogui.sleep(1)
+
+
 def check_life():
-    while True:
+    while ligado:
         if not (pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_FULL) or pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_GREEN)):
             pyautogui.press('F1')
             print('Enchendo vida...')
@@ -359,41 +423,73 @@ def check_life():
 
 
 def check_mana():
-    while True:
-        while not pyautogui.pixelMatchesColor(POSITION_MANA_FULL[0], POSITION_MANA_FULL[1], COLOR_MANA):
+    while ligado:
+        if not pyautogui.pixelMatchesColor(POSITION_MANA_FULL[0], POSITION_MANA_FULL[1], COLOR_MANA):
             pyautogui.press('F2')
             print('Enchendo mana...')
             pyautogui.sleep(1)
 
 
 def run():
-    while True:
+    while ligado:
         with open(f'{FOLDER_NAME}/infos.json', 'r') as file:
             data = json.loads(file.read())
         for item in data:
+            if ligado == False:
+                    break
             kill_monster(item ['combo'])
             pyautogui.sleep(1)
+            if ligado == False:
+                    break
             get_loot()
+            if ligado == False:
+                    break
             go_to_flag(item['path'], item['wait'], item ['elevation'], item ['direction'])
             if check_player_position():
+                if ligado == False:
+                    break
                 kill_monster(item ['combo'])
+                if ligado == False:
+                    break
                 pyautogui.sleep(1)
                 get_loot()
+                if ligado == False:
+                    break
                 go_to_flag(item['path'], item['wait'], item ['elevation'], item ['direction'])
+                if ligado == False:
+                    break
             eat_food()
+            if ligado == False:
+                break
 
 
 def ligar():
-
+    global ligado
+    ligado = True
+    print("O Bot está ativado.")
+    thread_check_conditions = threading.Thread(target=check_conditions)
     life_thread = threading.Thread(target=check_life)
     mana_thread = threading.Thread(target=check_mana)
     run_thread = threading.Thread(target=run)
+    thread_check_conditions.daemon = True
     life_thread.daemon = True
     mana_thread.daemon = True
     run_thread.daemon = True
+    thread_check_conditions.start()
     life_thread.start()
     mana_thread.start()
     run_thread.start()
+
+    if haste_var.get():
+        print("O haste está ativado.")
+    else:
+        print("O haste está desativado.")
+
+
+def desligar():
+    global ligado
+    ligado = False
+    print("O Bot está desativado.")
 
 
 # Criar janela
@@ -418,6 +514,7 @@ entry_senha.grid(row=1, column=1)
 botao_iniciar.grid(row=1, column=2, pady=10, padx=5)
 
 # Criar widgets
+botao_stop = tk.Button(janela, text="Desligar", command=desligar)
 botao_run = tk.Button(janela, text="Ligar", command=ligar)
 botao_opacidade = tk.Button(janela, text="Opacidade", command=opacidade)
 botao_salvar = tk.Button(janela, text="Salvar", command=salvar)
@@ -435,6 +532,9 @@ frame_eslava = tk.Frame(aba_retratil)
 combo_var = tk.StringVar(janela)
 combo_var.set(opcoes_folders[0])
 
+# Variável de controle para a check box
+haste_var = tk.BooleanVar()
+
 # Adicionar abas ao Notebook
 aba_retratil.add(frame_siciliana, text="Defesa Siciliana")
 aba_retratil.add(frame_italiana, text="Abertura Italiana")
@@ -448,18 +548,23 @@ combo_box.grid(row=3, column=1, pady=10, padx=5)
 botao_confirmar = tk.Button(janela, text="Confirmar", command=selecionar_folder)
 botao_confirmar.grid(row=3, column=2, pady=10, padx=5)
 
+# Criar a check box
+check_box = tk.Checkbutton(janela, text="Haste", variable=haste_var)
+check_box.grid(row=4, column=1, pady=10, padx=5)
+
 aba_retratil.grid(row=2, column=0, columnspan=3, pady=10, padx=5)
 
-botao_run.grid(row=4, column=4, pady=10, padx=5)
-botao_opacidade.grid(row=4, column=2, pady=10, padx=5)
-botao_salvar.grid(row=4, column=1, pady=10, padx=5)
-botao_carregar.grid(row=4, column=0, pady=10, padx=5)
+botao_stop.grid(row=5, column=5, pady=10, padx=5)
+botao_run.grid(row=5, column=4, pady=10, padx=5)
+botao_opacidade.grid(row=5, column=2, pady=10, padx=5)
+botao_salvar.grid(row=5, column=1, pady=10, padx=5)
+botao_carregar.grid(row=5, column=0, pady=10, padx=5)
 
 # Iniciar o loop de eventos
-janela.mainloop()
-
 #record = Rec()
 #record.start()
+janela.mainloop()
+
 #run()
 #print(pyautogui.locateOnScreen('C:/Users/Ryan/Desktop/AutoTibia/PNG/Region_Battle.png'))
 #pyautogui.displayMousePosition()
