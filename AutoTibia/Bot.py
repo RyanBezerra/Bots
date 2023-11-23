@@ -23,7 +23,8 @@ COLOR_MANA = (0, 57, 126)
 POSITION_LIFE = (366, 35)
 COLOR_LIFE_FULL = (0, 174, 0)
 COLOR_LIFE_GREEN = (100, 145, 4)
-COLOR_LIFE_YELLOW = (199, 151, 9)
+COLOR_LIFE_YELLOW = (183, 139, 8)
+COLOR_LIFE_RED = (174, 44, 44)
 x1, y1 = (1213, 456)
 expected_color = (254, 0, 0)
 CENTRO_MAPA = (1252, 82)
@@ -46,7 +47,7 @@ MARCADORES = [
     (668, 405), (689, 405), (710, 405), (731, 405), (752, 405)
 ]
 
-#FOLDER_NAME = 'SvargrondWinterWolf'
+#FOLDER_NAME = 'Crawler'
 
 # Lista de opções para a combo box
 opcoes_folders = [
@@ -54,7 +55,11 @@ opcoes_folders = [
     'SvargrondWinterWolf',
     'Dawnport',
     'SalamanderCave',
-    'VenoreSwampTroll'
+    'VenoreSwampTroll',
+    'Feyrist',
+    'Putrid',
+    'PiratCave',
+    'Crawler'
 ]
 
 def selecionar_folder():
@@ -239,9 +244,17 @@ def kill_monster(combo):
     if combo == 0:
         while check_battle() == None:
             pyautogui.press('space')
+            pyautogui.press('F5')
+            pyautogui.press('F6')
+            pyautogui.press('F7')
+            pyautogui.press('F8')
             pyautogui.sleep(1)
             while check_target_pixel() is True:
                 print('Matando...')
+                pyautogui.press('F5')
+                pyautogui.press('F6')
+                pyautogui.press('F7')
+                pyautogui.press('F8')
                 pyautogui.sleep(1)
             print('Procurando outros monstros')
     elif combo == 1:
@@ -293,10 +306,11 @@ def go_to_flag(path, wait, elevation, direction):
             pyautogui.moveTo(x, y)
             pyautogui.click(button='left')
             while pyautogui.locateOnScreen(path, region=(1252 - 4,82 - 4,9,9)) == None:
-                print('esperando...')
+                print('Esperando')
                 pyautogui.sleep(1)
-                antigo = pyautogui.locateOnScreen(path)
-                if antigo == pyautogui.locateOnScreen(path):
+                antigo = pyautogui.locateOnScreen(path, confidence=0.8, region=REGION_MAP_BATTLE)
+                pyautogui.sleep(1)
+                if antigo == pyautogui.locateOnScreen(path, confidence=0.8, region=REGION_MAP_BATTLE):
                     break
 
 
@@ -305,20 +319,92 @@ def go_to_flag(path, wait, elevation, direction):
             x, y = pyautogui.center(flag)
             pyautogui.moveTo(x, y)
             pyautogui.click(button='left')
-            pyautogui.sleep(wait)
-            pyautogui.press('1')
-            pyautogui.sleep(1)
-            pyautogui.moveTo(770, 342)
-            pyautogui.click(button='left')
+            while pyautogui.locateOnScreen(path, region=(1252 - 4,82 - 4,9,9)) == None:
+                print('Esperando')
+                pyautogui.sleep(1)
+                antigo = pyautogui.locateOnScreen(path, confidence=0.8, region=REGION_MAP_BATTLE)
+                pyautogui.sleep(1)
+                if antigo == pyautogui.locateOnScreen(path, confidence=0.8, region=REGION_MAP_BATTLE):
+                    break
+            if direction == 1:
+                pyautogui.sleep(1)
+                pyautogui.press('1')
+                pyautogui.sleep(1)
+                pyautogui.moveTo(DIRECTION1)
+                pyautogui.click(button='left')
+                pyautogui.moveTo(DIRECTION1)
+                pyautogui.click(button='left')
+            elif direction == 2:
+                pyautogui.sleep(1)
+                pyautogui.press('2')
+                pyautogui.sleep(1)
+                pyautogui.moveTo(DIRECTION2)
+                pyautogui.click(button='left')
+                pyautogui.moveTo(DIRECTION2)
+                pyautogui.click(button='left')
+            elif direction == 3:
+                pyautogui.sleep(1)
+                pyautogui.press('2')
+                pyautogui.sleep(1)
+                pyautogui.moveTo(DIRECTION3)
+                pyautogui.click(button='left')
+                pyautogui.moveTo(DIRECTION3)
+                pyautogui.click(button='left')
+            elif direction == 4:
+                pyautogui.sleep(1)
+                pyautogui.press('2')
+                pyautogui.sleep(1)
+                pyautogui.moveTo(DIRECTION4)
+                pyautogui.click(button='left')
+                pyautogui.moveTo(DIRECTION4)
+                pyautogui.click(button='left')
+            elif direction == 5:
+                pyautogui.sleep(1)
+                pyautogui.press('2')
+                pyautogui.sleep(1)
+                pyautogui.moveTo(DIRECTION5)
+                pyautogui.click(button='left')
+                pyautogui.moveTo(DIRECTION5)
+                pyautogui.click(button='left')
+            elif direction == 6:
+                pyautogui.sleep(1)
+                pyautogui.press('2')
+                pyautogui.sleep(1)
+                pyautogui.moveTo(DIRECTION6)
+                pyautogui.click(button='left')
+                pyautogui.moveTo(DIRECTION6)
+                pyautogui.click(button='left')
+            elif direction == 7:
+                pyautogui.sleep(1)
+                pyautogui.press('2')
+                pyautogui.sleep(1)
+                pyautogui.moveTo(DIRECTION7)
+                pyautogui.click(button='left')
+                pyautogui.moveTo(DIRECTION7)
+                pyautogui.click(button='left')
+            elif direction == 8:
+                pyautogui.sleep(1)
+                pyautogui.press('2')
+                pyautogui.sleep(1)
+                pyautogui.moveTo(DIRECTION8)
+                pyautogui.click(button='left')
+                pyautogui.moveTo(DIRECTION8)
+                pyautogui.click(button='left')
         elif elevation == 2:
             # Usa a pá
             x, y = pyautogui.center(flag)
             pyautogui.moveTo(x, y)
             pyautogui.click(button='left')
-            pyautogui.sleep(wait)
+            while pyautogui.locateOnScreen(path, region=(1252 - 4,82 - 4,9,9)) == None:
+                print('Esperando')
+                pyautogui.sleep(1)
+                antigo = pyautogui.locateOnScreen(path, confidence=0.8, region=REGION_MAP_BATTLE)
+                pyautogui.sleep(1)
+                if antigo == pyautogui.locateOnScreen(path, confidence=0.8, region=REGION_MAP_BATTLE):
+                    break
             if direction == 1:
                 pyautogui.sleep(1)
-                pyautogui.press('2')
+                pyautogui.press('1')
                 pyautogui.sleep(1)
                 pyautogui.moveTo(DIRECTION1)
                 pyautogui.click(button='left')
@@ -416,18 +502,21 @@ def check_conditions():
 
 def check_life():
     while ligado:
-        if not (pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_FULL) or pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_GREEN)):
-            pyautogui.press('F1')
+        if (pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_GREEN)):
+            pyautogui.press('F4')
             print('Enchendo vida...')
-            pyautogui.sleep(1)
+        if (pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_YELLOW) or pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_RED)):
+            pyautogui.press('F1')
+            pyautogui.press('F4')
+            print('Enchendo vida com pot...')
 
 
 def check_mana():
     while ligado:
         if not pyautogui.pixelMatchesColor(POSITION_MANA_FULL[0], POSITION_MANA_FULL[1], COLOR_MANA):
-            pyautogui.press('F2')
-            print('Enchendo mana...')
-            pyautogui.sleep(1)
+            if not (pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_YELLOW) or pyautogui.pixelMatchesColor(366, 35, COLOR_LIFE_RED)):
+                pyautogui.press('F2')
+                print('Enchendo mana...')
 
 
 def run():
@@ -563,6 +652,7 @@ botao_carregar.grid(row=5, column=0, pady=10, padx=5)
 # Iniciar o loop de eventos
 #record = Rec()
 #record.start()
+#print (pyautogui.pixel(366, 35))
 janela.mainloop()
 
 #run()
